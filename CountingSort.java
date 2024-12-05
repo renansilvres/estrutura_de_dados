@@ -6,7 +6,7 @@ import java.util.Random;
 public class CountingSort {
 
     public static class SortResult {
-        public long time; // Tempo de execução
+        public long time; // Tempo de execução do arquivo 
         public int operations; // Número de operações
     }
 
