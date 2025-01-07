@@ -3,14 +3,14 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 
-public class InsertSort {
+public class InsertionSort {
 
     public static class SortResult {
         public long time; // Tempo de execução
         public int operations; // Número de operações
     }
 
-    public static SortResult insertSort(int[] vetor) {
+    public static SortResult insertionSort(int[] vetor) {
         int n = vetor.length;
         int temp;
         int operationCount = 0; // Contador de operações
@@ -55,25 +55,25 @@ public class InsertSort {
             }
 
             // Ordenar e medir para o vetor aleatório
-            SortResult aleatorioResult = insertSort(Arrays.copyOf(vetorAleatorio, vetorAleatorio.length));
+            SortResult aleatorioResult = insertionSort(Arrays.copyOf(vetorAleatorio, vetorAleatorio.length));
             csvContent.append(size).append(",Aleatório,").append(aleatorioResult.time).append(",")
                     .append(aleatorioResult.operations).append("\n");
 
             // Ordenar e medir para o vetor crescente
-            SortResult crescenteResult = insertSort(Arrays.copyOf(vetorCrescente, vetorCrescente.length));
+            SortResult crescenteResult = insertionSort(Arrays.copyOf(vetorCrescente, vetorCrescente.length));
             csvContent.append(size).append(",Crescente,").append(crescenteResult.time).append(",")
                     .append(crescenteResult.operations).append("\n");
 
             // Ordenar e medir para o vetor decrescente
-            SortResult decrescenteResult = insertSort(Arrays.copyOf(vetorDecrescente, vetorDecrescente.length));
+            SortResult decrescenteResult = insertionSort(Arrays.copyOf(vetorDecrescente, vetorDecrescente.length));
             csvContent.append(size).append(",Decrescente,").append(decrescenteResult.time).append(",")
                     .append(decrescenteResult.operations).append("\n");
         }
 
         // Salvar conteúdo no arquivo CSV
-        try (FileWriter writer = new FileWriter("resultados_selt_sort.csv")) {
+        try (FileWriter writer = new FileWriter("resultados_insertion_sort.csv")) {
             writer.write(csvContent.toString());
-            System.out.println("Resultados salvos em 'resultados_selt_sort.csv'");
+            System.out.println("Resultados salvos em 'resultados_insertion_sort.csv'");
         } catch (IOException e) {
             System.err.println("Erro ao salvar o arquivo CSV: " + e.getMessage());
         }

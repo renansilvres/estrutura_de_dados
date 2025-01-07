@@ -6,7 +6,7 @@ import java.util.Random;
 public class CountingSort {
 
     public static class SortResult {
-        public long time; // Tempo de execução do arquivo 
+        public long time; // Tempo de execução
         public int operations; // Número de operações
     }
 
@@ -15,24 +15,47 @@ public class CountingSort {
         int operationCount = 0; // Contador de operações
         long startTime = System.nanoTime();
 
-        // Encontrar o valor máximo do vetor
-        int max = Arrays.stream(vetor).max().orElse(0);
-        int[] count = new int[max + 1];
+        if (n == 0) {
+            SortResult result = new SortResult();
+            result.time = 0;
+            result.operations = 0;
+            return result;
+        }
+
+        // Encontrar o valor máximo
+        int max = vetor[0];
+        for (int i = 1; i < vetor.length; i++) {
+            if (vetor[i] > max) {
+                max = vetor[i];
+            }
+            operationCount++;
+        }
 
         // Contar ocorrências
-        for (int i = 0; i < n; i++) {
+        int[] count = new int[max + 1];
+        for (int i = 0; i < vetor.length; i++) {
             count[vetor[i]]++;
             operationCount++;
         }
 
-        // Reordenar o vetor
-        int index = 0;
-        for (int i = 0; i <= max; i++) {
-            while (count[i] > 0) {
-                vetor[index++] = i;
-                count[i]--;
-                operationCount++;
-            }
+        // Acumular os valores
+        for (int i = 1; i < count.length; i++) {
+            count[i] += count[i - 1];
+            operationCount++;
+        }
+
+        // Criar o array ordenado
+        int[] output = new int[vetor.length];
+        for (int i = vetor.length - 1; i >= 0; i--) {
+            output[count[vetor[i]] - 1] = vetor[i];
+            count[vetor[i]]--;
+            operationCount++;
+        }
+
+        // Copiar os valores ordenados de volta para o vetor original
+        for (int i = 0; i < vetor.length; i++) {
+            vetor[i] = output[i];
+            operationCount++;
         }
 
         long endTime = System.nanoTime();

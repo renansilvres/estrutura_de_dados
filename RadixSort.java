@@ -10,24 +10,59 @@ public class RadixSort {
         public int operations; // Número de operações
     }
 
-    public static SortResult radixSort(int[] vetor) {
-        int n = vetor.length;
-        int temp;
-        int operationCount = 0; // Contador de operações
-        long startTime = System.nanoTime();
-        for (int i = 1; i < vetor.length; i++) {
-            int key = vetor[i];
-            int j = i - 1;
-            operationCount+=3; // Contar a comparaçã
-            while (j >= 0 && vetor[j] > key) {
-                vetor[j + 1] = vetor[j];
-                j--;
-                operationCount+=3; // Contar a comparação
-            }
-            vetor[j + 1] = key; 
-            operationCount+=1; // Contar a comparação
+    // Função para fazer Counting Sort para um dígito específico
+    private static int countingSortByDigit(int[] array, int exp, int[] output) {
+        int n = array.length;
+        int[] count = new int[10]; // Contagem de 0 a 9 (dígitos decimais)
+        int operationCount = 0;
+
+        // Contar ocorrências dos dígitos
+        for (int i = 0; i < n; i++) {
+            int digit = (array[i] / exp) % 10;
+            count[digit]++;
+            operationCount += 2; // Uma operação para calcular o dígito, outra para incrementar
         }
+
+        // Transformar count para armazenar posições
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+            operationCount++;
+        }
+
+        // Construir o array de saída
+        for (int i = n - 1; i >= 0; i--) {
+            int digit = (array[i] / exp) % 10;
+            output[count[digit] - 1] = array[i];
+            count[digit]--;
+            operationCount += 3; // Para acessar, atualizar e copiar
+        }
+
+        // Copiar de volta para o array original
+        for (int i = 0; i < n; i++) {
+            array[i] = output[i];
+            operationCount++;
+        }
+
+        return operationCount;
+    }
+
+    // Função principal do Radix Sort
+    public static SortResult radixSort(int[] array) {
+        int n = array.length;
+        int max = Arrays.stream(array).max().getAsInt(); // Encontrar o maior número no array
+        int[] output = new int[n]; // Array de saída temporário
+        int operationCount = 0;
+
+        long startTime = System.nanoTime();
+
+        // Aplicar Counting Sort para cada dígito (base 10)
+        for (int exp = 1; max / exp > 0; exp *= 10) {
+            operationCount += countingSortByDigit(array, exp, output);
+        }
+
         long endTime = System.nanoTime();
+
+        // Preparar o resultado
         SortResult result = new SortResult();
         result.time = endTime - startTime;
         result.operations = operationCount;

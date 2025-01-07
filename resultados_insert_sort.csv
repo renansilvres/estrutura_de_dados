@@ -1,0 +1,13 @@
+Tamanho do Vetor,Tipo,Tempo(ns),Operações
+100,Aleatório,97800,8046
+100,Crescente,5100,396
+100,Decrescente,142900,15246
+200,Aleatório,202100,30223
+200,Crescente,6100,796
+200,Decrescente,562000,60496
+400,Aleatório,716200,120996
+400,Crescente,10200,1596
+400,Decrescente,384900,240996
+600,Aleatório,207200,274103
+600,Crescente,2100,2396
+600,Decrescente,382600,541496
